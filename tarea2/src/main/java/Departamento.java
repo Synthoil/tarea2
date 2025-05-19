@@ -1,17 +1,21 @@
+import java.util.ArrayList;
+
 class Departamento {
     private String nombre_dept;
-    private int empleados;
+    private lista<Empleado> empleados = new lista<>();
 
     public Departamento(String nombre_dept) {
         this.nombre_dept = nombre_dept;
     }
 
     public int obtenerCantidadEmpleados() {
-        return empleados;
+        int count = 0;
+        while(empleados.getElemento() != null) count++;
+        return count;
     }
 
-    public void addEmpleado() {
-        empleados++;
+    public void addEmpleado(Empleado emp){
+        empleados.addElemento(emp);
     }
 
 }
