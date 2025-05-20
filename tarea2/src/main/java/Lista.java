@@ -17,5 +17,20 @@ public class Lista<T> {
     public Boolean contieneElemento(T elemento) {
         return elementos.contains(elemento);
     }
+    public boolean estaVacia(){
+        return elementos.isEmpty();
+    }
+    public int obtenerCantidad(){
+        int count = 0;
+        Lista<T> temp = new Lista<>();
 
+        while(!this.estaVacia()){
+            temp.addElemento(this.getElemento());
+            count++;
+        }
+        while(!temp.estaVacia()){
+            this.addElemento(temp.getElemento());
+        }
+        return count;
+    }
 }

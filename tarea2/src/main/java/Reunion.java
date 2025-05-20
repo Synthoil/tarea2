@@ -10,24 +10,18 @@ abstract class Reunion {
     private Instant horaFin;
     private String tipoReunion;
 
-    private Lista<Empleado> invitados;
-    private Lista<Empleado> asistentes;
-    private Lista<Empleado> atrasos;
-    private Lista<Empleado> no_asistentes;
-    private Lista<Instant> hora_llegada;
-    private Lista<Nota> notas;
+    private Lista<Empleado> invitados = new Lista<>();
+    private Lista<Empleado> asistentes = new Lista<>();
+    private Lista<Empleado> atrasos = new Lista<>();
+    private Lista<Empleado> no_asistentes = new Lista<>();
+    private Lista<Instant> hora_llegada = new Lista<>();
+    private Lista<Nota> notas = new Lista<>();
 
     public Reunion(LocalDate fecha, Instant horaPrevista, Duration duracionPrevista, String tipoReunion) {
         this.fecha = fecha;
         this.horaPrevista = horaPrevista;
         this.duracionPrevista = duracionPrevista;
-        notas = new Lista<>();
-        invitados = new Lista<>();
-        asistentes = new Lista<>();
-        hora_llegada = new Lista<>();
-        atrasos = new Lista<>();
-        no_asistentes = new Lista<>();
-        this.tipoReunion = String.valueOf(TipoReunion.valueOf(tipoReunion));
+        this.tipoReunion = tipoReunion;
     }
 
     public void agregarNota(Nota nota) {
@@ -50,7 +44,7 @@ abstract class Reunion {
         return Duration.between(horaInicio, horaFin).toMillis() / (60000f);
     }
 
-    public Lista obtenerAsistencias() {
+    public Lista<Empleado> obtenerAsistencias() {
         return asistentes;
     }
 
@@ -59,8 +53,11 @@ abstract class Reunion {
     }
 
     public void invitarDepartamento(Lista<Empleado> empleados) {
-        while(empleados.getElemento() != null) {
-            if(!(invitados.contieneElemento(empleados.getElemento()))) invitados.addElemento(empleados.getElemento());
+        while(!empleados.estaVacia()){
+            Empleado emp = empleados.getElemento();
+            if(!invitados.contieneElemento(emp)){
+                invitados.addElemento(emp);
+            }
         }
     }
 
@@ -72,15 +69,19 @@ abstract class Reunion {
         }
     }
 
-    public void obtenerTotalAsistencia() {
-
+    public int obtenerTotalAsistencia() {
+        return asistentes.obtenerCantidad();
     }
 
-    public void ausencias() {
-
+    public Lista<Empleado> obtenerAusencias() {
+        Lista<Empleado> ausentes = new Lista<>();
+        return ausentes;
     }
-    public void obtenerPorcentajeAsistencia() {
-
+    
+    public float obtenerPorcentajeAsistencia() {
+        if(invitados.obtenerCantidad() == 0){
+            return 0;
+        }
+        return (asistentes.obtenerCantidad() *100f) /invitados.obtenerCantidad();
     }
-
 }
