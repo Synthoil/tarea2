@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-class lista<T> {
+public class Lista<T> {
     private ArrayList<T> elementos = new ArrayList<>();
 
     public void addElemento(T elemento) {

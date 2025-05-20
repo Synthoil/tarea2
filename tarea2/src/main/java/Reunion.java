@@ -7,14 +7,14 @@ abstract class Reunion {
     public Instant horaInicio = Instant.parse("2025-01-01T19:00:00.00Z");
     public Instant horaFin = Instant.parse("2025-01-01T22:00:00.00Z");
 
-    lista<Empleado> asistentes;
+    Lista<Empleado> asistentes;
 
 
     public void iniciar() {
         horaInicio = Instant.from(LocalDateTime.now());
     }
 
-    public lista obtenerAsistencias() {
+    public Lista obtenerAsistencias() {
         return asistentes;
     }
 }

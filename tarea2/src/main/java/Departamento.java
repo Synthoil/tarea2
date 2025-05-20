@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 class Departamento {
     private String nombre_dept;
-    private lista<Empleado> empleados = new lista<>();
+    private Lista<Empleado> empleados = new Lista<>();
 
     public Departamento(String nombre_dept) {
         this.nombre_dept = nombre_dept;
