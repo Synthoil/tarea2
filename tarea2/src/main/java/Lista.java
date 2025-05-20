@@ -9,4 +9,13 @@ public class Lista<T> {
     public T getElemento() {
         return elementos.isEmpty() ? null : elementos.remove(0);
     }
+
+    public T leerElemento() {
+        return elementos.isEmpty() ? null : elementos.get(elementos.size() - 1);
+    }
+
+    public Boolean contieneElemento(T elemento) {
+        return elementos.contains(elemento);
+    }
+
 }

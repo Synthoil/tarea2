@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-class Departamento {
+class Departamento{
     private String nombre_dept;
     private Lista<Empleado> empleados = new Lista<>();
 
@@ -18,4 +18,7 @@ class Departamento {
         empleados.addElemento(emp);
     }
 
+    public Lista<Empleado> getEmpleados() {
+        return empleados;
+    }
 }

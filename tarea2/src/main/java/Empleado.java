@@ -1,4 +1,4 @@
-class Empleado {
+class Empleado{
     private String id;
     private String apellidos;
     private String nombre;
