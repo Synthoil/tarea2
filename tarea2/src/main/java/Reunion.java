@@ -53,11 +53,17 @@ abstract class Reunion {
     }
 
     public void invitarDepartamento(Lista<Empleado> empleados) {
+        Lista<Empleado> temp = new Lista<>();
+
         while(!empleados.estaVacia()){
             Empleado emp = empleados.getElemento();
+            temp.addElemento(emp);
             if(!invitados.contieneElemento(emp)){
                 invitados.addElemento(emp);
             }
+        }
+        while(!temp.estaVacia()){
+            empleados.addElemento(temp.getElemento());
         }
     }
 

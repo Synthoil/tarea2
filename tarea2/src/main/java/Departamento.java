@@ -9,9 +9,7 @@ class Departamento{
     }
 
     public int obtenerCantidadEmpleados() {
-        int count = 0;
-        while(empleados.getElemento() != null) count++;
-        return count;
+        return empleados.obtenerCantidad();
     }
 
     public void addEmpleado(Empleado emp){
