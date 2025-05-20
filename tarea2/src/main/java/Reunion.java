@@ -9,11 +9,21 @@ abstract class Reunion {
     private Instant horaFin;
 
     private Lista<Empleado> asistentes;
+    private Lista<Nota> notas;
 
     public Reunion(LocalDate fecha, Instant horaPrevista, Duration duracionPrevista) {
         this.fecha = fecha;
         this.horaPrevista = horaPrevista;
         this.duracionPrevista = duracionPrevista;
+        notas = new Lista<>();
+    }
+
+    public void agregarNota(Nota nota) {
+        notas.addElemento(nota);
+    }
+
+    public Lista<Nota> getNotas() {
+        return notas;
     }
 
     public void iniciar() {
