@@ -1,4 +1,4 @@
-class Empleado {
+public class Empleado implements Invitable {
     private String id;
     private String apellidos;
     private String nombre;
@@ -9,5 +9,10 @@ class Empleado {
         this.apellidos = apellidos;
         this.nombre = nombre;
         this.correo = correo;
+    }
+
+    @Override
+    public void invitar() {
+
     }
 }

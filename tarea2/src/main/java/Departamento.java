@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-class Departamento {
+public class Departamento implements Invitable{
     private String nombre_dept;
     private Lista<Empleado> empleados = new Lista<>();
 
@@ -18,4 +18,8 @@ class Departamento {
         empleados.addElemento(emp);
     }
 
+    @Override
+    public void invitar() {
+
+    }
 }
