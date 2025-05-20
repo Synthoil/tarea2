@@ -1,17 +1,31 @@
 import java.time.*;
+
 abstract class Reunion {
 
-    public LocalDate fecha = LocalDate.of(2025, 1, 1);
-    public Instant horaPrevista = Instant.parse("2025-01-01T19:00:00.00Z");
-    public Duration duracionPrevista = Duration.ofHours(3);
-    public Instant horaInicio = Instant.parse("2025-01-01T19:00:00.00Z");
-    public Instant horaFin = Instant.parse("2025-01-01T22:00:00.00Z");
+    private LocalDate fecha;
+    private Instant horaPrevista;
+    private Duration duracionPrevista;
+    private Instant horaInicio;
+    private Instant horaFin;
 
-    Lista<Empleado> asistentes;
+    private Lista<Empleado> asistentes;
 
+    public Reunion(LocalDate fecha, Instant horaPrevista, Duration duracionPrevista) {
+        this.fecha = fecha;
+        this.horaPrevista = horaPrevista;
+        this.duracionPrevista = duracionPrevista;
+    }
 
     public void iniciar() {
         horaInicio = Instant.from(LocalDateTime.now());
+    }
+
+    public void finalizar() {
+        horaFin = Instant.from(LocalDateTime.now());
+    }
+
+    public float calcularTiempoReal(){
+        return Duration.between(horaInicio, horaFin).toMillis() / (60000f);
     }
 
     public Lista obtenerAsistencias() {

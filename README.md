@@ -1,1 +1,4 @@
 # tarea2
+
+## observaciones
+
