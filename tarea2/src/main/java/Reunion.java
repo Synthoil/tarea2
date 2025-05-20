@@ -77,7 +77,7 @@ abstract class Reunion {
         Lista<Empleado> ausentes = new Lista<>();
         return ausentes;
     }
-    
+
     public float obtenerPorcentajeAsistencia() {
         if(invitados.obtenerCantidad() == 0){
             return 0;

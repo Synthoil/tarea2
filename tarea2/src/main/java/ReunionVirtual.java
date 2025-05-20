@@ -5,8 +5,8 @@ import java.time.LocalDate;
 class ReunionVirtual extends Reunion {
     private String enlace;
 
-    public ReunionVirtual(LocalDate fecha, Instant horaPrevista, Duration duracionPrevista) {
-        super(fecha, horaPrevista, duracionPrevista);
+    public ReunionVirtual(LocalDate fecha, Instant horaPrevista, Duration duracionPrevista, String tipoReunion) {
+        super(fecha, horaPrevista, duracionPrevista, tipoReunion );
     }
 
     public String getEnlace() {
