@@ -1,13 +1,14 @@
 import org.w3c.dom.ls.LSOutput;
 
+import java.io.IOException;
 import java.time.*;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Main {
-    public static void main(String[] args) throws DivisionPorCeroException, TiempoReunionInvalidoException, AsistenciaInvalidaException, DepartamentoVacioException, NotaInvalidaException {
+    public static void main(String[] args) throws DivisionPorCeroException, TiempoReunionInvalidoException, AsistenciaInvalidaException, DepartamentoVacioException, NotaInvalidaException, IOException {
         Empleado e1 = new Empleado("123", "abc", "def", "abc@def");
-        ReunionVirtual r = new ReunionVirtual(LocalDate.now(), Instant.now(), Duration.ofMinutes(90), TipoReunion.TECNICA, e1,  "reunion.com");
+        ReunionVirtual r = new ReunionVirtual(LocalDate.now(), Instant.now(), Duration.ofMinutes(90), TipoReunion.TECNICA, e1, "reunion.com");
         Empleado e2 = new Empleado("345", "ghi", "jkl", "ghi@jkl");
         Empleado e3 = new Empleado("456", "mno", "pqr", "mno@pqr");
         Empleado e4 = new Empleado("567", "mno", "pqr", "mno@pqr");
@@ -24,7 +25,7 @@ public class Main {
         r.agregarNota(n);
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -40,12 +41,14 @@ public class Main {
         System.out.println(r.obtenerPorcentajeAsistencia());
         System.out.println(r.calcularTiempoReal());
 
+
+
         System.out.println("asistentes");
         for (Empleado asistente : r.obtenerAsistencias().copiaElementos()) {
             System.out.println(asistente.getId() + " " + asistente.getNombre() + " " + asistente.getApellidos());
         }
 
-        System.out.println("asuentes");
+        System.out.println("ausentes");
         for (Empleado ausente : r.obtenerAusencias().copiaElementos()) {
             System.out.println(ausente.getId() + " " +ausente.getNombre() + " " + ausente.getApellidos());
         }
@@ -54,5 +57,8 @@ public class Main {
         for (Empleado atrasado : r.obtenerAtrasos().copiaElementos()) {
             System.out.println(atrasado.getId() + " " + atrasado.getNombre() + " " + atrasado.getApellidos());
         }
+
+        Informe in = new Informe();
+        in.exportarResumen(r);
     }
 }

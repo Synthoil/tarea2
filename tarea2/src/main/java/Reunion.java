@@ -46,7 +46,7 @@ abstract class Reunion {
      * @param nota Nota con un texto guardado.
      */
     public void agregarNota(Nota nota) throws NotaInvalidaException {
-        if(nota == null || nota.getContenido() == null || nota.getContenido().trim().isEmpty()){
+        if (nota == null || nota.getContenido() == null || nota.getContenido().trim().isEmpty()) {
             throw new NotaInvalidaException("No se puede agregar: La nota está vacia o es nula");
         }
         notas.addElemento(nota);
@@ -73,7 +73,7 @@ abstract class Reunion {
      */
     public void finalizar() throws TiempoReunionInvalidoException {
         Instant ahora = Instant.now();
-        if(horaInicio != null && ahora.isBefore(horaInicio)){
+        if (horaInicio != null && ahora.isBefore(horaInicio)) {
             throw new TiempoReunionInvalidoException("La reunion de " + tipoReunion + "tiene tiempos invalidos");
         }
         horaFin = ahora;
@@ -105,6 +105,15 @@ abstract class Reunion {
     }
 
     /**
+     * Retorna la lista de invitados a la reunion.
+     *
+     * @return invitados
+     */
+    public Lista<Empleado> obtenerInvitados() {
+        return invitados;
+    }
+
+    /**
      * Recibe un empleado y revisa si ya fue invitado previamente, si no estaba en la lista
      * de invitados se agrega.
      *
@@ -121,15 +130,15 @@ abstract class Reunion {
      * @param departamento lista de empleados.
      */
     public void invitarDepartamento(Departamento departamento) throws DepartamentoVacioException {
-        if (departamento.obtenerCantidadEmpleados() == 0){
+        if (departamento.obtenerCantidadEmpleados() == 0) {
             throw new DepartamentoVacioException("No se puede invitar: El departamento no tiene empleados");
         }
 
         Lista<Empleado> empleados = departamento.getEmpleados();
+        ArrayList<Empleado> copiaEmpleados = empleados.copiaElementos();
 
-        while (!empleados.estaVacia()){
-            Empleado emp = empleados.getElemento();
-            if(!invitados.contieneElemento(emp)) {
+        for (Empleado emp : copiaEmpleados) {
+            if (!invitados.contieneElemento(emp)) {
                 invitados.addElemento(emp);
             }
         }
@@ -152,7 +161,7 @@ abstract class Reunion {
 
         asistentes.addElemento(empleado);
         hora_llegada.addElemento(ahora);
-        if (Duration.between(horaInicio, ahora).toSeconds() > 3) {
+        if (Duration.between(horaInicio, ahora).toMinutes() > 15) {
             atrasos.addElemento(empleado);
         }
     }
@@ -163,17 +172,18 @@ abstract class Reunion {
      * @param empleados lista de empleados del departamento
      */
     public void asisteDepartamento(Lista<Empleado> empleados) {
+
         Lista<Empleado> temp = new Lista<>();
         while (!empleados.estaVacia()) {
             Empleado emp = empleados.getElemento();
             temp.addElemento(emp);
             try {
                 asisteEmpleado(emp);
-            } catch(AsistenciaInvalidaException e){
+            } catch (AsistenciaInvalidaException e) {
                 System.err.println("Error en asistencia: " + e.getMessage());
             }
         }
-        while(!temp.estaVacia()){
+        while (!temp.estaVacia()) {
             empleados.addElemento(temp.getElemento());
         }
     }
@@ -218,7 +228,7 @@ abstract class Reunion {
      */
     public float obtenerPorcentajeAsistencia() throws DivisionPorCeroException {
         int totalInvitados = invitados.obtenerCantidad();
-        if(totalInvitados == 0){
+        if (totalInvitados == 0) {
             throw new DivisionPorCeroException("No se puede calcular porcentaje: La lista de invitados esta vacía");
         }
         return (asistentes.obtenerCantidad() * 100f) / totalInvitados;
@@ -232,5 +242,41 @@ abstract class Reunion {
 
     public TipoReunion getTipoReunion() {
         return tipoReunion;
+    }
+
+    /**
+     * Devuelve el tiempo de inicio previsto entregado en el constructor.
+     *
+     * @return fecha de inicio previsto.
+     */
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    /**
+     * Devuelve la hora prevista para el inicio de la reunion.
+     *
+     * @return hora prevista.
+     */
+    public Instant getHoraPrevista() {
+        return horaPrevista;
+    }
+
+    /**
+     * Devuelve la hora de inicio real de la reunion
+     *
+     * @return hora de inicio.
+     */
+    public Instant getHoraInicio() {
+        return horaInicio;
+    }
+
+    /**
+     * Devuelve la hora de fin real para la reunion.
+     *
+     * @return de finalizacion.
+     */
+    public Instant getHoraFin() {
+        return horaFin;
     }
 }
