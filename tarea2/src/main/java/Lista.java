@@ -17,9 +17,15 @@ public class Lista<T> {
     public Boolean contieneElemento(T elemento) {
         return elementos.contains(elemento);
     }
+
     public boolean estaVacia(){
         return elementos.isEmpty();
     }
+
+    public ArrayList<T> copiaElementos() {
+        return new ArrayList<>(elementos);
+    }
+
     public int obtenerCantidad(){
         int count = 0;
         Lista<T> temp = new Lista<>();

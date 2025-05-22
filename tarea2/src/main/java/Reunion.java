@@ -33,11 +33,11 @@ abstract class Reunion {
     }
 
     public void iniciar() {
-        horaInicio = Instant.from(LocalDateTime.now());
+        horaInicio = Instant.now();
     }
 
     public void finalizar() {
-        horaFin = Instant.from(LocalDateTime.now());
+        horaFin = Instant.now();
     }
 
     public float calcularTiempoReal(){
@@ -80,9 +80,14 @@ abstract class Reunion {
     }
 
     public Lista<Empleado> obtenerAusencias() {
-        Lista<Empleado> ausentes = new Lista<>();
-        return ausentes;
+    Lista<Empleado> ausentes = new Lista<>();
+    for (Empleado invitado : invitados.copiaElementos()) {
+        if (!asistentes.contieneElemento(invitado)) {
+            ausentes.addElemento(invitado);
+        }
     }
+    return ausentes;
+}
 
     public float obtenerPorcentajeAsistencia() {
         if(invitados.obtenerCantidad() == 0){
