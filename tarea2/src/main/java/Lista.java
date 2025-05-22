@@ -39,4 +39,8 @@ public class Lista<T> {
         }
         return count;
     }
+
+    public T elementoInicial(){
+        return elementos.getFirst();
+    }
 }
