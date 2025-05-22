@@ -68,8 +68,12 @@ abstract class Reunion {
     /**
      * Toma el instante actual para guardar el final de la reunion.
      */
-    public void finalizar() {
-        horaFin = Instant.now();
+    public void finalizar() throws TiempoReunionInvalidoException {
+        Instant ahora = Instant.now();
+        if(horaInicio != null && ahora.isBefore(horaInicio)){
+            throw new TiempoReunionInvalidoException("La reunion de " + tipoReunion + "tiene tiempos invalidos");
+        }
+        horaFin = ahora;
     }
 
     /**
@@ -129,20 +133,18 @@ abstract class Reunion {
      *
      * @param empleado Empleado que asiste a la reunion.
      */
-    public void asisteEmpleado(Empleado empleado) {
-        if (horaInicio == null) {
-            System.out.println("No se puede registrar asistencia: la reunión no ha comenzado.");
-            return;
-        }
+    public void asisteEmpleado(Empleado empleado) throws AsistenciaInvalidaException {
         if (asistentes.contieneElemento(empleado)) {
-            System.out.println("Este empleado ya ha registrado asistencia.");
-            return;
+            throw new AsistenciaInvalidaException("El empleado " + empleado.getNombre() + "ya registró asistencia");
+        }
+        Instant ahora = Instant.now();
+        if (horaInicio != null && ahora.isBefore(horaInicio)) {
+            throw new AsistenciaInvalidaException("El empleado " + empleado.getNombre() + "llegó antes del inicio");
         }
 
         asistentes.addElemento(empleado);
-        Instant temp = Instant.now();
-        hora_llegada.addElemento(temp);
-        if (Duration.between(horaInicio, temp).toSeconds() > 3) {
+        hora_llegada.addElemento(ahora);
+        if (Duration.between(horaInicio, ahora).toSeconds() > 3) {
             atrasos.addElemento(empleado);
         }
     }
@@ -153,9 +155,18 @@ abstract class Reunion {
      * @param empleados lista de empleados del departamento
      */
     public void asisteDepartamento(Lista<Empleado> empleados) {
+        Lista<Empleado> temp = new Lista<>();
         while (!empleados.estaVacia()) {
             Empleado emp = empleados.getElemento();
-            asisteEmpleado(emp);
+            temp.addElemento(emp);
+            try {
+                asisteEmpleado(emp);
+            } catch(AsistenciaInvalidaException e){
+                System.err.println("Error en asistencia: " + e.getMessage());
+            }
+        }
+        while(!temp.estaVacia()){
+            empleados.addElemento(temp.getElemento());
         }
     }
 
@@ -197,11 +208,12 @@ abstract class Reunion {
      *
      * @return asistencia%
      */
-    public float obtenerPorcentajeAsistencia() {
-        if (invitados.obtenerCantidad() == 0) {
-            return 0;
+    public float obtenerPorcentajeAsistencia() throws DivisionPorCeroException {
+        int totalInvitados = invitados.obtenerCantidad();
+        if(totalInvitados == 0){
+            throw new DivisionPorCeroException("No se puede calcular porcentaje: La lista de invitados esta vacía");
         }
-        return (asistentes.obtenerCantidad() * 100f) / invitados.obtenerCantidad();
+        return (asistentes.obtenerCantidad() * 100f) / totalInvitados;
     }
 
     /**
