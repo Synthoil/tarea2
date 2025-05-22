@@ -40,8 +40,15 @@ abstract class Reunion {
         horaFin = Instant.now();
     }
 
-    public float calcularTiempoReal(){
-        return Duration.between(horaInicio, horaFin).toMillis() / (60000f);
+    public String calcularTiempoReal() {
+        long diferenciaMillis = Duration.between(horaInicio, horaFin).toMillis();
+        Duration duration = Duration.ofMillis(diferenciaMillis);
+
+        long hours = duration.toHours();
+        long minutes = duration.toMinutes() % 60;
+        long seconds = duration.getSeconds() % 60;
+
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
     public Lista<Empleado> obtenerAsistencias() {
@@ -49,50 +56,68 @@ abstract class Reunion {
     }
 
     public void invitarEmpleado(Empleado empleado) {
-        if(!(invitados.contieneElemento(empleado))) invitados.addElemento(empleado);
+        if (!(invitados.contieneElemento(empleado))) invitados.addElemento(empleado);
     }
 
     public void invitarDepartamento(Lista<Empleado> empleados) {
         Lista<Empleado> temp = new Lista<>();
 
-        while(!empleados.estaVacia()){
+        while (!empleados.estaVacia()) {
             Empleado emp = empleados.getElemento();
             temp.addElemento(emp);
-            if(!invitados.contieneElemento(emp)){
+            if (!invitados.contieneElemento(emp)) {
                 invitados.addElemento(emp);
             }
         }
-        while(!temp.estaVacia()){
+        while (!temp.estaVacia()) {
             empleados.addElemento(temp.getElemento());
         }
     }
 
-    public void asiste(Empleado empleado) {
+    public void asisteEmpleado(Empleado empleado) {
+        if (horaInicio == null) {
+            System.out.println("No se puede registrar asistencia: la reunión no ha comenzado.");
+            return;
+        }
+        if (asistentes.contieneElemento(empleado)) {
+            System.out.println("Este empleado ya ha registrado asistencia.");
+            return;
+        }
+
         asistentes.addElemento(empleado);
-        hora_llegada.addElemento(Instant.now());
-        if (Duration.between(hora_llegada.leerElemento(), horaInicio).toMinutes() > 15) {
+        Instant temp = Instant.now();
+        hora_llegada.addElemento(temp);
+        if (Duration.between(horaInicio, temp).toMinutes() > 15) {
             atrasos.addElemento(empleado);
         }
     }
+
+    public void asisteDepartamento(Lista<Empleado> empleados) {
+        while (!empleados.estaVacia()) {
+            Empleado emp = empleados.getElemento();
+            asisteEmpleado(emp);
+        }
+    }
+
 
     public int obtenerTotalAsistencia() {
         return asistentes.obtenerCantidad();
     }
 
     public Lista<Empleado> obtenerAusencias() {
-    Lista<Empleado> ausentes = new Lista<>();
-    for (Empleado invitado : invitados.copiaElementos()) {
-        if (!asistentes.contieneElemento(invitado)) {
-            ausentes.addElemento(invitado);
+        Lista<Empleado> ausentes = new Lista<>();
+        for (Empleado invitado : invitados.copiaElementos()) {
+            if (!asistentes.contieneElemento(invitado)) {
+                ausentes.addElemento(invitado);
+            }
         }
+        return ausentes;
     }
-    return ausentes;
-}
 
     public float obtenerPorcentajeAsistencia() {
-        if(invitados.obtenerCantidad() == 0){
+        if (invitados.obtenerCantidad() == 0) {
             return 0;
         }
-        return (asistentes.obtenerCantidad() *100f) /invitados.obtenerCantidad();
+        return (asistentes.obtenerCantidad() * 100f) / invitados.obtenerCantidad();
     }
 }
