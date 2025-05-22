@@ -204,6 +204,7 @@ abstract class Reunion {
      * @return lista de ausentes
      */
     public Lista<Empleado> obtenerAusencias() {
+        ausentes = new Lista<>();
         for (Empleado invitado : invitados.copiaElementos()) {
             if (!asistentes.contieneElemento(invitado)) {
                 ausentes.addElemento(invitado);
