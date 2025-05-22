@@ -6,15 +6,15 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        ReunionVirtual r = new ReunionVirtual(LocalDate.now(), Instant.now(), Duration.ofMinutes(90), "Tecnica", "reunion.com");
         Empleado e1 = new Empleado("123", "abc", "def", "abc@def");
+        ReunionVirtual r = new ReunionVirtual(LocalDate.now(), Instant.now(), Duration.ofMinutes(90), TipoReunion.TECNICA, e1,  "reunion.com");
         Empleado e2 = new Empleado("345", "ghi", "jkl", "ghi@jkl");
         Empleado e3 = new Empleado("456", "mno", "pqr", "mno@pqr");
         Empleado e4 = new Empleado("567", "mno", "pqr", "mno@pqr");
-        Departamento d = new Departamento("tonotos");
+        Departamento d = new Departamento("abecedario");
         d.addEmpleado(e3);
         d.addEmpleado(e4);
-        r.invitarDepartamento(d.getEmpleados());
+        r.invitarDepartamento(d);
         r.invitarEmpleado(e1);
         r.invitarEmpleado(e2);
 
@@ -34,6 +34,7 @@ public class Main {
         r.finalizar();
 
         System.out.println(r.getEnlace());
+        System.out.println(r.getTipoReunion());
         System.out.println(r.getNotas().getElemento().getContenido());
         System.out.println(r.obtenerTotalAsistencia());
         System.out.println(r.obtenerPorcentajeAsistencia());
