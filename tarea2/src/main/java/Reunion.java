@@ -16,6 +16,7 @@ abstract class Reunion {
     private Lista<Empleado> no_asistentes = new Lista<>();
     private Lista<Instant> hora_llegada = new Lista<>();
     private Lista<Nota> notas = new Lista<>();
+    private Lista<Empleado> ausentes = new Lista<>();
 
     public Reunion(LocalDate fecha, Instant horaPrevista, Duration duracionPrevista, String tipoReunion) {
         this.fecha = fecha;
@@ -87,7 +88,7 @@ abstract class Reunion {
         asistentes.addElemento(empleado);
         Instant temp = Instant.now();
         hora_llegada.addElemento(temp);
-        if (Duration.between(horaInicio, temp).toMinutes() > 15) {
+        if (Duration.between(horaInicio, temp).toSeconds() > 3) {
             atrasos.addElemento(empleado);
         }
     }
@@ -105,13 +106,16 @@ abstract class Reunion {
     }
 
     public Lista<Empleado> obtenerAusencias() {
-        Lista<Empleado> ausentes = new Lista<>();
         for (Empleado invitado : invitados.copiaElementos()) {
             if (!asistentes.contieneElemento(invitado)) {
                 ausentes.addElemento(invitado);
             }
         }
         return ausentes;
+    }
+
+    public Lista<Empleado> obtenerAtrasos() {
+        return atrasos;
     }
 
     public float obtenerPorcentajeAsistencia() {

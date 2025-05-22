@@ -19,7 +19,6 @@ public class Main {
         r.invitarEmpleado(e2);
 
         r.iniciar();
-        r.asisteEmpleado(e1);
         r.asisteDepartamento(d.getEmpleados());
         Nota n = new Nota("Reunion de tecnica");
         r.agregarNota(n);
@@ -29,6 +28,8 @@ public class Main {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        r.asisteEmpleado(e1);
 
         r.finalizar();
 
@@ -46,6 +47,11 @@ public class Main {
         System.out.println("asuentes");
         for (Empleado ausente : r.obtenerAusencias().copiaElementos()) {
             System.out.println(ausente.getId() + " " +ausente.getNombre() + " " + ausente.getApellidos());
+        }
+
+        System.out.println("atrasos");
+        for (Empleado atrasado : r.obtenerAtrasos().copiaElementos()) {
+            System.out.println(atrasado.getId() + " " + atrasado.getNombre() + " " + atrasado.getApellidos());
         }
     }
 }
