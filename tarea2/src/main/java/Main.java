@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Main {
-    public static void main(String[] args) throws DivisionPorCeroException, TiempoReunionInvalidoException, AsistenciaInvalidaException {
+    public static void main(String[] args) throws DivisionPorCeroException, TiempoReunionInvalidoException, AsistenciaInvalidaException, DepartamentoVacioException, NotaInvalidaException {
         Empleado e1 = new Empleado("123", "abc", "def", "abc@def");
         ReunionVirtual r = new ReunionVirtual(LocalDate.now(), Instant.now(), Duration.ofMinutes(90), TipoReunion.TECNICA, e1,  "reunion.com");
         Empleado e2 = new Empleado("345", "ghi", "jkl", "ghi@jkl");

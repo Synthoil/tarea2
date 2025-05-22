@@ -45,7 +45,10 @@ abstract class Reunion {
      *
      * @param nota Nota con un texto guardado.
      */
-    public void agregarNota(Nota nota) {
+    public void agregarNota(Nota nota) throws NotaInvalidaException {
+        if(nota == null || nota.getContenido() == null || nota.getContenido().trim().isEmpty()){
+            throw new NotaInvalidaException("No se puede agregar: La nota está vacia o es nula");
+        }
         notas.addElemento(nota);
     }
 
@@ -117,11 +120,16 @@ abstract class Reunion {
      *
      * @param departamento lista de empleados.
      */
-    public void invitarDepartamento(Departamento departamento) {
+    public void invitarDepartamento(Departamento departamento) throws DepartamentoVacioException {
+        if (departamento.obtenerCantidadEmpleados() == 0){
+            throw new DepartamentoVacioException("No se puede invitar: El departamento no tiene empleados");
+        }
+
         Lista<Empleado> empleados = departamento.getEmpleados();
 
-        for (Empleado emp : empleados.copiaElementos()) {
-            if (!invitados.contieneElemento(emp)) {
+        while (!empleados.estaVacia()){
+            Empleado emp = empleados.getElemento();
+            if(!invitados.contieneElemento(emp)) {
                 invitados.addElemento(emp);
             }
         }
