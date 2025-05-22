@@ -2,4 +2,4 @@
 
 ## observaciones
 
-Revisar el get en while
+Agregar excepcion a "asiste" en reunion
