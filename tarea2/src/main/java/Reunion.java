@@ -1,5 +1,6 @@
 import java.time.*;
 import java.util.*;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Clase que representa la reunion, extendida para la reunion virtual y presencial.
@@ -232,5 +233,29 @@ abstract class Reunion {
 
     public TipoReunion getTipoReunion() {
         return tipoReunion;
+    }
+
+    @Override
+    public String toString(){
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm:ss");
+
+        String horaPrevistaStr = horaPrevista != null ? LocalTime.ofInstant(horaPrevista, ZoneId.systemDefault()).format(formatoHora) : "Sin hora prevista";
+
+        String duracionPrevistaStr = duracionPrevista != null ? duracionPrevista.toHours() +" horas " + (duracionPrevista.toMinutes()%60) +"minutos" : "No definida";
+
+        String horaInicioStr = horaInicio != null ? LocalTime.ofInstant(horaInicio, ZoneId.systemDefault()).format(formatoHora) : "No iniciada";
+
+        String horaFinStr = horaFin != null ? LocalTime.ofInstant(horaFin, ZoneId.systemDefault()).format(formatoHora) : "No ha finalizado";
+
+        return "Tipo de reunion: " +tipoReunion+
+                "\nFecha: "+ fecha+
+                "\nHora prevista: "+ horaPrevistaStr+
+                "\nDuracion prevista: "+ duracionPrevistaStr+
+                "\nInicio de la reunion: "+horaInicioStr+
+                "\nFin de la reunion: "+horaFinStr+
+                "\nInvitados: "+invitados.obtenerCantidad()+
+                "\nAsistentes: "+asistentes.obtenerCantidad()+
+                "\nInasistentes: "+ausentes.obtenerCantidad()+
+                "\nAtrasos: "+ atrasos.obtenerCantidad();
     }
 }

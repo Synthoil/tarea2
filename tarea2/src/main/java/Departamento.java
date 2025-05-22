@@ -52,4 +52,19 @@ class Departamento{
     public String getNombre_dept() {
         return nombre_dept;
     }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Departamento ").append(nombre_dept).append("(")
+                .append(obtenerCantidadEmpleados()).append(" Mienbros en el departamento)\n");
+
+        ArrayList<Empleado> empleadosCopia = empleados.copiaElementos();
+
+        for (int i=0; i<empleadosCopia.size();i++){
+            sb.append("\n-").append(empleadosCopia.get(i).toString());
+        }
+
+        return sb.toString();
+    }
 }
