@@ -1,5 +1,10 @@
 import java.time.*;
 import java.util.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.time.*;
 
 /**
  * Clase que representa la reunion, extendida para la reunion virtual y presencial.
@@ -46,7 +51,7 @@ abstract class Reunion {
      * @param nota Nota con un texto guardado.
      */
     public void agregarNota(Nota nota) throws NotaInvalidaException {
-        if(nota == null || nota.getContenido() == null || nota.getContenido().trim().isEmpty()){
+        if (nota == null || nota.getContenido() == null || nota.getContenido().trim().isEmpty()) {
             throw new NotaInvalidaException("No se puede agregar: La nota está vacia o es nula");
         }
         notas.addElemento(nota);
@@ -73,7 +78,7 @@ abstract class Reunion {
      */
     public void finalizar() throws TiempoReunionInvalidoException {
         Instant ahora = Instant.now();
-        if(horaInicio != null && ahora.isBefore(horaInicio)){
+        if (horaInicio != null && ahora.isBefore(horaInicio)) {
             throw new TiempoReunionInvalidoException("La reunion de " + tipoReunion + "tiene tiempos invalidos");
         }
         horaFin = ahora;
@@ -121,15 +126,15 @@ abstract class Reunion {
      * @param departamento lista de empleados.
      */
     public void invitarDepartamento(Departamento departamento) throws DepartamentoVacioException {
-        if (departamento.obtenerCantidadEmpleados() == 0){
+        if (departamento.obtenerCantidadEmpleados() == 0) {
             throw new DepartamentoVacioException("No se puede invitar: El departamento no tiene empleados");
         }
 
         Lista<Empleado> empleados = departamento.getEmpleados();
+        List<Empleado> copia = empleados.copiaElementos(); // asegurarse de tener una copia independiente
 
-        while (!empleados.estaVacia()){
-            Empleado emp = empleados.getElemento();
-            if(!invitados.contieneElemento(emp)) {
+        for (Empleado emp : copia) {
+            if (!invitados.contieneElemento(emp)) {
                 invitados.addElemento(emp);
             }
         }
@@ -152,7 +157,7 @@ abstract class Reunion {
 
         asistentes.addElemento(empleado);
         hora_llegada.addElemento(ahora);
-        if (Duration.between(horaInicio, ahora).toSeconds() > 3) {
+        if (Duration.between(horaInicio, ahora).toMinutes() > 15) {
             atrasos.addElemento(empleado);
         }
     }
@@ -169,11 +174,11 @@ abstract class Reunion {
             temp.addElemento(emp);
             try {
                 asisteEmpleado(emp);
-            } catch(AsistenciaInvalidaException e){
+            } catch (AsistenciaInvalidaException e) {
                 System.err.println("Error en asistencia: " + e.getMessage());
             }
         }
-        while(!temp.estaVacia()){
+        while (!temp.estaVacia()) {
             empleados.addElemento(temp.getElemento());
         }
     }
@@ -194,6 +199,7 @@ abstract class Reunion {
      * @return lista de ausentes
      */
     public Lista<Empleado> obtenerAusencias() {
+        ausentes = new Lista<>();
         for (Empleado invitado : invitados.copiaElementos()) {
             if (!asistentes.contieneElemento(invitado)) {
                 ausentes.addElemento(invitado);
@@ -218,7 +224,7 @@ abstract class Reunion {
      */
     public float obtenerPorcentajeAsistencia() throws DivisionPorCeroException {
         int totalInvitados = invitados.obtenerCantidad();
-        if(totalInvitados == 0){
+        if (totalInvitados == 0) {
             throw new DivisionPorCeroException("No se puede calcular porcentaje: La lista de invitados esta vacía");
         }
         return (asistentes.obtenerCantidad() * 100f) / totalInvitados;
@@ -271,26 +277,26 @@ abstract class Reunion {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm:ss");
 
         String horaPrevistaStr = horaPrevista != null ? LocalTime.ofInstant(horaPrevista, ZoneId.systemDefault()).format(formatoHora) : "Sin hora prevista";
 
-        String duracionPrevistaStr = duracionPrevista != null ? duracionPrevista.toHours() +" horas " + (duracionPrevista.toMinutes()%60) +"minutos" : "No definida";
+        String duracionPrevistaStr = duracionPrevista != null ? duracionPrevista.toHours() + " horas " + (duracionPrevista.toMinutes() % 60) + "minutos" : "No definida";
 
         String horaInicioStr = horaInicio != null ? LocalTime.ofInstant(horaInicio, ZoneId.systemDefault()).format(formatoHora) : "No iniciada";
 
         String horaFinStr = horaFin != null ? LocalTime.ofInstant(horaFin, ZoneId.systemDefault()).format(formatoHora) : "No ha finalizado";
 
-        return "Tipo de reunion: " +tipoReunion+
-                "\nFecha: "+ fecha+
-                "\nHora prevista: "+ horaPrevistaStr+
-                "\nDuracion prevista: "+ duracionPrevistaStr+
-                "\nInicio de la reunion: "+horaInicioStr+
-                "\nFin de la reunion: "+horaFinStr+
-                "\nInvitados: "+invitados.obtenerCantidad()+
-                "\nAsistentes: "+asistentes.obtenerCantidad()+
-                "\nInasistentes: "+ausentes.obtenerCantidad()+
-                "\nAtrasos: "+ atrasos.obtenerCantidad();
+        return "Tipo de reunion: " + tipoReunion +
+                "\nFecha: " + fecha +
+                "\nHora prevista: " + horaPrevistaStr +
+                "\nDuracion prevista: " + duracionPrevistaStr +
+                "\nInicio de la reunion: " + horaInicioStr +
+                "\nFin de la reunion: " + horaFinStr +
+                "\nInvitados: " + invitados.obtenerCantidad() +
+                "\nAsistentes: " + asistentes.obtenerCantidad() +
+                "\nInasistentes: " + ausentes.obtenerCantidad() +
+                "\nAtrasos: " + atrasos.obtenerCantidad();
     }
 }
