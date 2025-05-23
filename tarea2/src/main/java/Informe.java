@@ -23,18 +23,18 @@ public class Informe {
                 informe.write("Sala de reunion: " + ((ReunionPresencial) reunion).getSala() + "\n");
             }
 
-            informe.write("Organizador: " + reunion.obtenerAsistencias().elementoInicial().getNombre() + " " + reunion.obtenerAsistencias().elementoInicial().getApellidos() + "\n");
+            informe.write("Organizador: " + reunion.obtenerAsistencias().elementoInicial().getNombreCompleto()+"\n");
             informe.write("---Participantes---\n");
-            for (Empleado asistente : reunion.obtenerAsistencias().copiaElementos()) {
-                informe.write(asistente.getNombre() + " " + asistente.getApellidos() + "\n");
+            for (Participante asistente : reunion.obtenerAsistencias().copiaElementos()) {
+                informe.write(asistente.getNombreCompleto() + "\n");
             }
             informe.write("---Atrasados---\n");
-            for (Empleado atrasado : reunion.obtenerAtrasos().copiaElementos()) {
-                informe.write(atrasado.getNombre() + " " + atrasado.getApellidos() + "\n");
+            for (Participante atrasado : reunion.obtenerAtrasos().copiaElementos()) {
+                informe.write(atrasado.getNombreCompleto() + "\n");
             }
             informe.write("---Ausente---\n");
-            for (Empleado ausente : reunion.obtenerAusencias().copiaElementos()) {
-                informe.write(ausente.getNombre() + " " + ausente.getApellidos() + "\n");
+            for (Participante ausente : reunion.obtenerAusencias().copiaElementos()) {
+                informe.write(ausente.getNombreCompleto() +"\n");
             }
 
         }
