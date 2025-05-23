@@ -12,15 +12,15 @@ public class Main {
         Empleado e2 = new Empleado("345", "ghi", "jkl", "ghi@jkl");
         Empleado e3 = new Empleado("456", "mno", "pqr", "mno@pqr");
         Empleado e4 = new Empleado("567", "mno", "pqr", "mno@pqr");
-        InvitadoExterno ext1 = new InvitadoExterno("Inasistente Externo","inasistente@mail");
-        InvitadoExterno ext2 = new InvitadoExterno("Impuntual Externo", "Atrasado@mail");
+        InvitadoExterno ext1 = new InvitadoExterno("Externo1","inasistente@mail");
+        InvitadoExterno ext2 = new InvitadoExterno("Externo2", "Atrasado@mail");
         Departamento d = new Departamento("abecedario");
         d.addEmpleado(e3);
         d.addEmpleado(e4);
         r.invitarDepartamento(d);
-        r.invitarEmpleado(e1);
-        r.invitarEmpleado(e2);
-        r.invitarExterno(ext1);
+        r.invitarParticipante(e1);
+        r.invitarParticipante(e2);
+        r.invitarParticipante(ext1);
 
         r.iniciar();
         r.asisteDepartamento(d.getEmpleados());
@@ -33,7 +33,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        r.asisteEmpleado(e1);
+        r.asisteParticipante(e1);
         r.asisteParticipante(ext2);
 
         r.finalizar();

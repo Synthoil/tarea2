@@ -110,13 +110,15 @@ abstract class Reunion {
     }
 
     /**
-     * Recibe un empleado y revisa si ya fue invitado previamente, si no estaba en la lista
+     * Recibe una persona y revisa si ya fue invitado previamente, si no estaba en la lista
      * de invitados se agrega.
      *
-     * @param empleado Empleado a invitar.
+     * @param participante Persona a invitar.
      */
-    public void invitarEmpleado(Empleado empleado) {
-        if (!(invitados.contieneElemento(empleado))) invitados.addElemento(empleado);
+    public void invitarParticipante(Participante participante) {
+        if(!invitados.contieneElemento(participante)){
+            invitados.addElemento(participante);
+        }
     }
 
     /**
@@ -131,18 +133,12 @@ abstract class Reunion {
         }
 
         Lista<Empleado> empleados = departamento.getEmpleados();
-        List<Empleado> copia = empleados.copiaElementos(); // asegurarse de tener una copia independiente
+        List<Empleado> copia = empleados.copiaElementos();
 
         for (Empleado emp : copia) {
             if (!invitados.contieneElemento(emp)) {
                 invitados.addElemento(emp);
             }
-        }
-    }
-
-    public void invitarExterno(InvitadoExterno invitado){
-        if(!invitados.contieneElemento(invitado)){
-            invitados.addElemento(invitado);
         }
     }
 
@@ -157,33 +153,11 @@ abstract class Reunion {
 
         asistentes.addElemento(p);
         hora_llegada.addElemento(ahora);
-        if (Duration.between(horaInicio,ahora).toMinutes()>15){
+        if (Duration.between(horaInicio,ahora).toSeconds() > 3){
             atrasos.addElemento(p);
         }
     }
 
-
-    /**
-     * Recibe un empleado y considera el momento acual para registrar su hora de llegada.
-     * lanza excepcion si la reunion no ha comenzado o si la misma persona registra asistencia 2 veces.
-     *
-     * @param empleado Empleado que asiste a la reunion.
-     */
-    public void asisteEmpleado(Empleado empleado) throws AsistenciaInvalidaException {
-        if (asistentes.contieneElemento(empleado)) {
-            throw new AsistenciaInvalidaException("El empleado " + empleado.getNombre() + "ya registró asistencia");
-        }
-        Instant ahora = Instant.now();
-        if (horaInicio != null && ahora.isBefore(horaInicio)) {
-            throw new AsistenciaInvalidaException("El empleado " + empleado.getNombre() + "llegó antes del inicio");
-        }
-
-        asistentes.addElemento(empleado);
-        hora_llegada.addElemento(ahora);
-        if (Duration.between(horaInicio, ahora).toMinutes() > 15) {
-            atrasos.addElemento(empleado);
-        }
-    }
 
     /**
      * Toma toda la lista de empleados de un departamento y llama al registro de asistencia con cada uno.
@@ -196,7 +170,7 @@ abstract class Reunion {
             Empleado emp = empleados.getElemento();
             temp.addElemento(emp);
             try {
-                asisteEmpleado(emp);
+                asisteParticipante(emp);
             } catch (AsistenciaInvalidaException e) {
                 System.err.println("Error en asistencia: " + e.getMessage());
             }
