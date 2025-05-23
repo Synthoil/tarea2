@@ -12,12 +12,15 @@ public class Main {
         Empleado e2 = new Empleado("345", "ghi", "jkl", "ghi@jkl");
         Empleado e3 = new Empleado("456", "mno", "pqr", "mno@pqr");
         Empleado e4 = new Empleado("567", "mno", "pqr", "mno@pqr");
+        InvitadoExterno ext1 = new InvitadoExterno("Inasistente Externo","inasistente@mail");
+        InvitadoExterno ext2 = new InvitadoExterno("Impuntual Externo", "Atrasado@mail");
         Departamento d = new Departamento("abecedario");
         d.addEmpleado(e3);
         d.addEmpleado(e4);
         r.invitarDepartamento(d);
         r.invitarEmpleado(e1);
         r.invitarEmpleado(e2);
+        r.invitarExterno(ext1);
 
         r.iniciar();
         r.asisteDepartamento(d.getEmpleados());
@@ -25,12 +28,13 @@ public class Main {
         r.agregarNota(n);
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         r.asisteEmpleado(e1);
+        r.asisteParticipante(ext2);
 
         r.finalizar();
 
@@ -44,18 +48,33 @@ public class Main {
 
 
         System.out.println("asistentes");
-        for (Empleado asistente : r.obtenerAsistencias().copiaElementos()) {
-            System.out.println(asistente.getId() + " " + asistente.getNombre() + " " + asistente.getApellidos());
+        for (Participante asistente : r.obtenerAsistencias().copiaElementos()) {
+            if (asistente instanceof Empleado) {
+                Empleado emp = (Empleado) asistente;
+                System.out.println(emp.getId() + " - " + emp.getNombreCompleto());
+            } else {
+                System.out.println(asistente.getNombreCompleto());
+            }
         }
 
         System.out.println("ausentes");
-        for (Empleado ausente : r.obtenerAusencias().copiaElementos()) {
-            System.out.println(ausente.getId() + " " +ausente.getNombre() + " " + ausente.getApellidos());
+        for (Participante ausente : r.obtenerAusencias().copiaElementos()) {
+            if (ausente instanceof Empleado) {
+                Empleado emp = (Empleado) ausente;
+                System.out.println(emp.getId() + " - " + emp.getNombreCompleto());
+            } else {
+                System.out.println(ausente.getNombreCompleto());
+            }
         }
 
         System.out.println("atrasos");
-        for (Empleado atrasado : r.obtenerAtrasos().copiaElementos()) {
-            System.out.println(atrasado.getId() + " " + atrasado.getNombre() + " " + atrasado.getApellidos());
+        for (Participante atrasado : r.obtenerAtrasos().copiaElementos()) {
+            if (atrasado instanceof Empleado) {
+                Empleado emp = (Empleado) atrasado;
+                System.out.println(emp.getId() + " - " + emp.getNombreCompleto());
+            } else {
+                System.out.println(atrasado.getNombreCompleto());
+            }
         }
 
         Informe in = new Informe();
