@@ -21,12 +21,12 @@ abstract class Reunion {
     private Instant horaFin;
     private TipoReunion tipoReunion;
 
-    private Lista<Empleado> invitados = new Lista<>();
-    private Lista<Empleado> asistentes = new Lista<>();
-    private Lista<Empleado> atrasos = new Lista<>();
+    private Lista<Participante> invitados = new Lista<>();
+    private Lista<Participante> asistentes = new Lista<>();
+    private Lista<Participante> atrasos = new Lista<>();
     private Lista<Instant> hora_llegada = new Lista<>();
     private Lista<Nota> notas = new Lista<>();
-    private Lista<Empleado> ausentes = new Lista<>();
+    private Lista<Participante> ausentes = new Lista<>();
 
     /**
      * Constructor que guarda los datos previstos para la reunion
@@ -105,7 +105,7 @@ abstract class Reunion {
      *
      * @return asistentes
      */
-    public Lista<Empleado> obtenerAsistencias() {
+    public Lista<Participante> obtenerAsistencias() {
         return asistentes;
     }
 
@@ -139,6 +139,29 @@ abstract class Reunion {
             }
         }
     }
+
+    public void invitarExterno(InvitadoExterno invitado){
+        if(!invitados.contieneElemento(invitado)){
+            invitados.addElemento(invitado);
+        }
+    }
+
+    public void asisteParticipante(Participante p) throws AsistenciaInvalidaException{
+        if(asistentes.contieneElemento(p)){
+            throw new AsistenciaInvalidaException("Ya esta registrado");
+        }
+        Instant ahora = Instant.now();
+        if (horaInicio!=null && ahora.isBefore(horaInicio)){
+            throw new AsistenciaInvalidaException("Llego antes de iniciar la reunion");
+        }
+
+        asistentes.addElemento(p);
+        hora_llegada.addElemento(ahora);
+        if (Duration.between(horaInicio,ahora).toMinutes()>15){
+            atrasos.addElemento(p);
+        }
+    }
+
 
     /**
      * Recibe un empleado y considera el momento acual para registrar su hora de llegada.
@@ -198,9 +221,9 @@ abstract class Reunion {
      *
      * @return lista de ausentes
      */
-    public Lista<Empleado> obtenerAusencias() {
+    public Lista<Participante> obtenerAusencias() {
         ausentes = new Lista<>();
-        for (Empleado invitado : invitados.copiaElementos()) {
+        for (Participante invitado : invitados.copiaElementos()) {
             if (!asistentes.contieneElemento(invitado)) {
                 ausentes.addElemento(invitado);
             }
@@ -213,7 +236,7 @@ abstract class Reunion {
      *
      * @return Empleados atrasados.
      */
-    public Lista<Empleado> obtenerAtrasos() {
+    public Lista<Participante> obtenerAtrasos() {
         return atrasos;
     }
 
