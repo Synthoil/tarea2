@@ -2,7 +2,7 @@
  * Clase que representa a un empleado con id, appelidos, nombre y correo
  */
 
-class Empleado {
+class Empleado implements Participante{
     private String id;
     private String apellidos;
     private String nombre;
@@ -85,6 +85,12 @@ class Empleado {
      */
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+
+    @Override
+    public String getNombreCompleto() {
+        return nombre + " " + apellidos;
     }
 
     @Override
