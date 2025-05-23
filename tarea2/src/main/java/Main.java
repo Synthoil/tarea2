@@ -23,7 +23,7 @@ public class Main {
         r.invitarParticipante(ext1);
 
         r.iniciar();
-        r.asisteDepartamento(d.getEmpleados());
+        r.asisteDepartamento(d);
         Nota n = new Nota("Reunion de tecnica");
         r.agregarNota(n);
 

@@ -162,9 +162,10 @@ abstract class Reunion {
     /**
      * Toma toda la lista de empleados de un departamento y llama al registro de asistencia con cada uno.
      *
-     * @param empleados lista de empleados del departamento
+     * @param departamento Departamento que provee una lista.
      */
-    public void asisteDepartamento(Lista<Empleado> empleados) {
+    public void asisteDepartamento(Departamento departamento) throws DepartamentoVacioException {
+        Lista<Empleado> empleados = departamento.getEmpleados();
         Lista<Empleado> temp = new Lista<>();
         while (!empleados.estaVacia()) {
             Empleado emp = empleados.getElemento();
