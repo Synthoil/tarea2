@@ -142,7 +142,12 @@ abstract class Reunion {
         }
     }
 
-    public void asisteParticipante(Participante p) throws AsistenciaInvalidaException{
+    public void asisteParticipante(Participante p) throws AsistenciaInvalidaException, ParticipanteNoInvitadoException{
+        if(!invitados.contieneElemento(p)) {
+            throw new ParticipanteNoInvitadoException(
+                    "El participante " + p.getNombreCompleto() + "no esta invitado esta reunion"
+            );
+        }
         if(asistentes.contieneElemento(p)){
             throw new AsistenciaInvalidaException("Ya esta registrado");
         }
@@ -164,7 +169,7 @@ abstract class Reunion {
      *
      * @param departamento Departamento que provee una lista.
      */
-    public void asisteDepartamento(Departamento departamento) throws DepartamentoVacioException {
+    public void asisteDepartamento(Departamento departamento) throws DepartamentoVacioException, ParticipanteNoInvitadoException {
         Lista<Empleado> empleados = departamento.getEmpleados();
         Lista<Empleado> temp = new Lista<>();
         while (!empleados.estaVacia()) {
