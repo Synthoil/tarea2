@@ -1,9 +1,11 @@
 public class InvitadoExterno implements Participante {
-    private String nombreCompleto;
+    private String nombre;
+    private String apellidos;
     private String correo;
 
-    public InvitadoExterno(String nombreCompleto, String correo){
-        this.nombreCompleto = nombreCompleto;
+    public InvitadoExterno(String nombre, String apellidos, String correo){
+        this.nombre = nombre;
+        this.apellidos = apellidos;
         this.correo = correo;
     }
 
@@ -13,12 +15,12 @@ public class InvitadoExterno implements Participante {
     }
 
     @Override
-    public String getNombreCompleto(){
-        return nombreCompleto;
+    public String getNombreCompleto() {
+        return nombre + " " + apellidos;
     }
 
     @Override
     public String toString(){
-        return "Invitado externo "+ nombreCompleto + "("+correo+")";
+        return "Invitado externo "+ nombre + " " + apellidos + "("+correo+")";
     }
 }

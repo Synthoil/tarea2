@@ -12,8 +12,8 @@ public class Main {
         Empleado e2 = new Empleado("345", "ghi", "jkl", "ghi@jkl");
         Empleado e3 = new Empleado("456", "mno", "pqr", "mno@pqr");
         Empleado e4 = new Empleado("567", "mno", "pqr", "mno@pqr");
-        InvitadoExterno ext1 = new InvitadoExterno("Externo1","inasistente@mail");
-        InvitadoExterno ext2 = new InvitadoExterno("Externo2", "Atrasado@mail");
+        InvitadoExterno ext1 = new InvitadoExterno("Externo1", "externo","inasistente@mail");
+        InvitadoExterno ext2 = new InvitadoExterno("Externo2", "externo", "Atrasado@mail");
         Departamento d = new Departamento("abecedario");
         d.addEmpleado(e3);
         d.addEmpleado(e4);

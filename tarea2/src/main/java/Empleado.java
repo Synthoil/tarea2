@@ -8,7 +8,7 @@ class Empleado implements Participante{
     private String nombre;
     private String correo;
 
-    public Empleado(String id, String apellidos, String nombre, String correo) {
+    public Empleado(String id, String nombre, String apellidos, String correo) {
         this.id = id;
         this.apellidos = apellidos;
         this.nombre = nombre;
@@ -101,6 +101,4 @@ class Empleado implements Participante{
                 ", Correo='" + correo + '\'' +
                 '}';
     }
-
-
 }
