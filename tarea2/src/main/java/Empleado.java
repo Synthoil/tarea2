@@ -1,5 +1,5 @@
 /**
- * Clase que representa a un empleado con id, appelidos, nombre y correo
+ * Clase que representa a un empleado y su informacion personal, es participante.
  */
 
 class Empleado implements Participante{
@@ -8,6 +8,14 @@ class Empleado implements Participante{
     private String nombre;
     private String correo;
 
+    /**
+     * Construye al empleado con sus datos personales.
+     *
+     * @param id Identificador del empleado.
+     * @param nombre Nombre del empleado.
+     * @param apellidos Apellidos del empleado.
+     * @param correo Correo del empleado.
+     */
     public Empleado(String id, String nombre, String apellidos, String correo) {
         this.id = id;
         this.apellidos = apellidos;
@@ -88,11 +96,21 @@ class Empleado implements Participante{
     }
 
 
+    /**
+     * Retorna la concatenacion de nombre y apellidos.
+     *
+     * @return nombre + apellido.
+     */
     @Override
     public String getNombreCompleto() {
         return nombre + " " + apellidos;
     }
 
+    /**
+     * Entrega la descripcion de la clase.
+     *
+     * @return descripcion.
+     */
     @Override
     public String toString(){
         return "Empleado{"+

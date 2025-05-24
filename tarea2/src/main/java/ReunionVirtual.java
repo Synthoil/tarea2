@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  * Clase especifica de reunion que tiene un enlace.
- * */
+ */
 class ReunionVirtual extends Reunion {
     private String enlace;
 

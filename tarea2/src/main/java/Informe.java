@@ -4,7 +4,18 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.*;
 
+/**
+ * La clase recibe los datos de reunion y con estos escribe un informe en formato txt
+ */
+
 public class Informe {
+
+    /**
+     * Metodo que recibe la reunion y accede a los datos guardados en esta.
+     *
+     * @param reunion Reunion (Ya finalizada) que contiene los datos a escribir.
+     * @throws IOException Lanzada cuando hay errores de I/O.
+     * */
     public void exportarResumen(Reunion reunion) throws IOException {
         try (BufferedWriter informe = new BufferedWriter(new FileWriter("informe.txt"))) {
 

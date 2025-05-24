@@ -53,6 +53,12 @@ class Departamento{
         return nombre_dept;
     }
 
+
+    /**
+     * Entrega una descripcion de la clase
+     *
+     * @return Descripcion de la clase.
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
