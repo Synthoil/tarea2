@@ -167,7 +167,7 @@ abstract class Reunion {
 
         asistentes.addElemento(p);
         hora_llegada.addElemento(ahora);
-        if (Duration.between(horaInicio, ahora).toSeconds() > 3) {
+        if (Duration.between(horaInicio, ahora).toMinutes() > 15) {
             atrasos.addElemento(p);
         }
     }
