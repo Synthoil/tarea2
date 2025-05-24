@@ -1,6 +1,9 @@
+import java.time.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Date;
+
 /**
  * Clase especifica de reunion que tiene un enlace.
  * */
@@ -15,7 +18,7 @@ class ReunionVirtual extends Reunion {
      * @param organizador Empleado que organiza la reunion.
      * @param enlace String que contiene el enlace para ingresar a la reunion.
      */
-    public ReunionVirtual(LocalDate fecha, Instant horaPrevista, Duration duracionPrevista, TipoReunion tipoReunion, Empleado organizador, String enlace) {
+    public ReunionVirtual(Date fecha, Instant horaPrevista, Duration duracionPrevista, TipoReunion tipoReunion, Empleado organizador, String enlace) {
         super(fecha, horaPrevista, duracionPrevista, tipoReunion, organizador);
         this.enlace = enlace;
     }

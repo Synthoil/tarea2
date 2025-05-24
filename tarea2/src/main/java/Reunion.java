@@ -145,7 +145,7 @@ abstract class Reunion {
     public void asisteParticipante(Participante p) throws AsistenciaInvalidaException, ParticipanteNoInvitadoException{
         if(!invitados.contieneElemento(p)) {
             throw new ParticipanteNoInvitadoException(
-                    "El participante " + p.getNombreCompleto() + "no esta invitado esta reunion"
+                    "El participante " + p.getNombreCompleto() + " no esta invitado esta reunion"
             );
         }
         if(asistentes.contieneElemento(p)){

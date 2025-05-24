@@ -2,13 +2,14 @@ import org.w3c.dom.ls.LSOutput;
 
 import java.io.IOException;
 import java.time.*;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws DivisionPorCeroException, TiempoReunionInvalidoException, AsistenciaInvalidaException, DepartamentoVacioException, NotaInvalidaException, IOException, ParticipanteNoInvitadoException {
         Empleado e1 = new Empleado("123", "abc", "def", "abc@def");
-        ReunionVirtual r = new ReunionVirtual(LocalDate.now(), Instant.now(), Duration.ofMinutes(90), TipoReunion.TECNICA, e1, "reunion.com");
+        ReunionVirtual r = new ReunionVirtual(Date.from(Instant.now()), Instant.now(), Duration.ofMinutes(90), TipoReunion.TECNICA, e1, "reunion.com");
         Empleado e2 = new Empleado("345", "ghi", "jkl", "ghi@jkl");
         Empleado e3 = new Empleado("456", "mno", "pqr", "mno@pqr");
         Empleado e4 = new Empleado("567", "mno", "pqr", "mno@pqr");

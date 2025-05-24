@@ -1,6 +1,7 @@
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * Clase especifica de reunion que tiene una sala donde se realiza la reunion.
@@ -17,7 +18,7 @@ class ReunionPresencial extends Reunion {
      * @param organizador Empleado que organiza la reunion.
      * @param sala Ubicacion de la reunion.
      */
-    public ReunionPresencial(LocalDate fecha, Instant horaPrevista, Duration duracionPrevista, TipoReunion tipoReunion, Empleado organizador, String sala) {
+    public ReunionPresencial(Date fecha, Instant horaPrevista, Duration duracionPrevista, TipoReunion tipoReunion, Empleado organizador, String sala) {
         super(fecha, horaPrevista, duracionPrevista, tipoReunion, organizador);
     }
 
