@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * Clase especifica de reunion que tiene una sala donde se realiza la reunion.
- * */
+ */
 
 class ReunionPresencial extends Reunion {
     private String sala;
@@ -20,6 +20,7 @@ class ReunionPresencial extends Reunion {
      */
     public ReunionPresencial(Date fecha, Instant horaPrevista, Duration duracionPrevista, TipoReunion tipoReunion, Empleado organizador, String sala) {
         super(fecha, horaPrevista, duracionPrevista, tipoReunion, organizador);
+        this.sala = sala;
     }
 
     /**

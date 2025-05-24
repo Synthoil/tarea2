@@ -116,7 +116,7 @@ abstract class Reunion {
      * @param participante Persona a invitar.
      */
     public void invitarParticipante(Participante participante) {
-        if(!invitados.contieneElemento(participante)){
+        if (!invitados.contieneElemento(participante)) {
             invitados.addElemento(participante);
         }
     }
@@ -126,6 +126,7 @@ abstract class Reunion {
      * y comprueba si ya estaban invitados para no invitarlos 2 veces
      *
      * @param departamento lista de empleados.
+     * @throws DepartamentoVacioException Cuando el departamento esta vacio.
      */
     public void invitarDepartamento(Departamento departamento) throws DepartamentoVacioException {
         if (departamento.obtenerCantidadEmpleados() == 0) {
@@ -142,23 +143,31 @@ abstract class Reunion {
         }
     }
 
-    public void asisteParticipante(Participante p) throws AsistenciaInvalidaException, ParticipanteNoInvitadoException{
-        if(!invitados.contieneElemento(p)) {
+    /**
+     * Recibe un participante, si está a la hora es agregado a los asistentes, pero si llega tarde tambien
+     * es agregado a la lista de los atrasados (ventana de 15 minutos).
+     *
+     * @param p Participante (Empleado o Invitado).
+     * @throws AsistenciaInvalidaException     Cuando la una persona asiste dos veces,
+     * @throws ParticipanteNoInvitadoException Cuando una persona no invitada asiste.
+     */
+    public void asisteParticipante(Participante p) throws AsistenciaInvalidaException, ParticipanteNoInvitadoException {
+        if (!invitados.contieneElemento(p)) {
             throw new ParticipanteNoInvitadoException(
                     "El participante " + p.getNombreCompleto() + " no esta invitado esta reunion"
             );
         }
-        if(asistentes.contieneElemento(p)){
+        if (asistentes.contieneElemento(p)) {
             throw new AsistenciaInvalidaException("Ya esta registrado");
         }
         Instant ahora = Instant.now();
-        if (horaInicio!=null && ahora.isBefore(horaInicio)){
+        if (horaInicio != null && ahora.isBefore(horaInicio)) {
             throw new AsistenciaInvalidaException("Llego antes de iniciar la reunion");
         }
 
         asistentes.addElemento(p);
         hora_llegada.addElemento(ahora);
-        if (Duration.between(horaInicio,ahora).toSeconds() > 3){
+        if (Duration.between(horaInicio, ahora).toSeconds() > 3) {
             atrasos.addElemento(p);
         }
     }
@@ -168,6 +177,8 @@ abstract class Reunion {
      * Toma toda la lista de empleados de un departamento y llama al registro de asistencia con cada uno.
      *
      * @param departamento Departamento que provee una lista.
+     * @throws DepartamentoVacioException Cuando la una persona asiste dos veces,
+     * @throws ParticipanteNoInvitadoException Cuando una persona no invitada asiste.
      */
     public void asisteDepartamento(Departamento departamento) throws DepartamentoVacioException, ParticipanteNoInvitadoException {
         Lista<Empleado> empleados = departamento.getEmpleados();
@@ -224,6 +235,7 @@ abstract class Reunion {
      * Calcula el porcentaje de personas que asistieron.
      *
      * @return asistencia%
+     * @throws DivisionPorCeroException Cuando el departamento esta vacio.
      */
     public float obtenerPorcentajeAsistencia() throws DivisionPorCeroException {
         int totalInvitados = invitados.obtenerCantidad();
@@ -279,6 +291,11 @@ abstract class Reunion {
         return horaFin;
     }
 
+    /**
+     * Entrega la descripcion de la clase.
+     *
+     * @return descripcion.
+     */
     @Override
     public String toString() {
         DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm:ss");
