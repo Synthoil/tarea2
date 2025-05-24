@@ -14,7 +14,7 @@ import java.time.*;
 
 abstract class Reunion {
 
-    private LocalDate fecha;
+    private Date fecha;
     private Instant horaPrevista;
     private Duration duracionPrevista;
     private Instant horaInicio;
@@ -37,7 +37,7 @@ abstract class Reunion {
      * @param tipoReunion      Enumeracion que dicta el tipo de reunion.
      * @param organizador      Emplado que organiza la reunion, forzado a ser el primer invitado.
      */
-    public Reunion(LocalDate fecha, Instant horaPrevista, Duration duracionPrevista, TipoReunion tipoReunion, Empleado organizador) {
+    public Reunion(Date fecha, Instant horaPrevista, Duration duracionPrevista, TipoReunion tipoReunion, Empleado organizador) {
         this.fecha = fecha;
         this.horaPrevista = horaPrevista;
         this.duracionPrevista = duracionPrevista;
@@ -243,7 +243,7 @@ abstract class Reunion {
      *
      * @return fecha de inicio previsto.
      */
-    public LocalDate getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
